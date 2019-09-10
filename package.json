@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+<<<<<<< HEAD
+    "@types/jest": "24.0.17",
+    "@types/node": "12.7.2",
+    "@types/react": "16.9.2",
+    "@types/react-dom": "16.8.5",
+    "node-sass": "^4.12.0",
+=======
     "express": "^4.17.1",
+>>>>>>> f58f52685d12ca6c54e17c64b2710ca168964c8f
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
