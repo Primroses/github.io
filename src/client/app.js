@@ -14,7 +14,7 @@ class App extends React.Component{
   render(){
     return (
       <div className="head">
-        <p>Learning React SSRRRRRRRRRR</p>
+        <p>Learning React SSR</p>
       </div>
     )
   }
