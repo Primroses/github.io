@@ -3,41 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://localhost/framework/</loc>
+    <loc>https://primroses.github.io/myBlog/framework/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/</loc>
+    <loc>https://primroses.github.io/myBlog/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/tags/</loc>
+    <loc>https://primroses.github.io/myBlog/tags/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/tags/%E6%A1%86%E6%9E%B6/</loc>
+    <loc>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/framework/tonggou/</loc>
+    <loc>https://primroses.github.io/myBlog/framework/tonggou/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/about/</loc>
+    <loc>https://primroses.github.io/myBlog/about/</loc>
     <lastmod>2019-10-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost/categories/</loc>
+    <loc>https://primroses.github.io/myBlog/categories/</loc>
   </url>
   
   <url>
-    <loc>http://localhost/series/</loc>
+    <loc>https://primroses.github.io/myBlog/series/</loc>
   </url>
   
 </urlset>

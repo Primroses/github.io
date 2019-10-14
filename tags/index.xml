@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Front-end habitat</title>
-    <link>http://localhost/tags/</link>
+    <link>https://primroses.github.io/myBlog/tags/</link>
     <description>Recent content in Tags on Front-end habitat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
     <lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://primroses.github.io/myBlog/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>框架</title>
-      <link>http://localhost/tags/%E6%A1%86%E6%9E%B6/</link>
+      <link>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost/tags/%E6%A1%86%E6%9E%B6/</guid>
+      <guid>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</guid>
       <description></description>
     </item>
     

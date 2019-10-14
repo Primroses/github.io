@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>框架 on Front-end habitat</title>
-    <link>http://localhost/tags/%E6%A1%86%E6%9E%B6/</link>
+    <link>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</link>
     <description>Recent content in 框架 on Front-end habitat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
     <lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost/tags/%E6%A1%86%E6%9E%B6/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>简单一文助你理解同构</title>
-      <link>http://localhost/framework/tonggou/</link>
+      <link>https://primroses.github.io/myBlog/framework/tonggou/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost/framework/tonggou/</guid>
+      <guid>https://primroses.github.io/myBlog/framework/tonggou/</guid>
       <description>阅读本文你可以了解到 1.客户端渲染，传统的服务端渲染和同构的概念 2.它们之间的区别及优缺点 3.预渲染的简单概念和预渲染跟同构的比较 4.用Re</description>
     </item>
     
