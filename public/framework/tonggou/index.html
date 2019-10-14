@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>简单一文助你理解同构 - Front-end habitat</title><link rel="icon" type="image/png" href=http://localhost/img/icon.ico />
+	<link rel="shortcut icon" href=/icon.ico><meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="http://localhost/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="http://localhost/js/main.js"></script>
+	<script src="http://localhost/js/background.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Front-end habitat</h1>
+	<div class="site-description "><div class="subtitle">Record My growth experiences</div><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/Primroses" title="Github"><i data-feather="github"></i></a><a href="https://github.com/Primroses" title="heart"><i data-feather="hexagon"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/">主页</a>
+			</li>
+			
+			<li>
+				<a href="/framework">框架</a>
+			</li>
+			
+			<li>
+				<a href="/about">关于</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h2 class="title">简单一文助你理解同构</h2>
+			<div class="meta">Posted at &mdash; Oct 14, 2019</div>
+		</div>
+
+		<div class="markdown">
+			
+
+<p>阅读本文你可以了解到<br />
+1.客户端渲染，传统的服务端渲染和同构的概念<br />
+2.它们之间的区别及优缺点<br />
+3.预渲染的简单概念和预渲染跟同构的比较<br />
+4.用React来简单举例同构配置</p>
+
+<p><img src="../../img/framework/1.png" alt="clientRender" /></p>
+
+<h2 id="客户端渲染-服务端渲染-同构渲染分别是什么">客户端渲染，服务端渲染，同构渲染分别是什么</h2>
+
+<ul>
+<li>服务端渲染:服务器直接生成的HTML文档直接返回给客户端浏览器，浏览器将HTML文档输出呈现至用户界面。</li>
+<li>客户端渲染:页面首先加载JS文件，然后动态生成HTML文档挂载在对应的节点上。</li>
+
+<li><p>同构      :同构应用是通过客户端和服务端共同作用而成的。服务端先执行HTML文档的生成后，将HTML文档传递给客户端，客户端激活接管后续的页面交互功能。</p></li>
+
+<li><p>传统的服务端渲染虽然对SEO友好，但是对页面交互性能比较有限，通常都会引入JavaScript来辅助实现交互功能。客户端渲染则相对来说对SEO不太友好，由于页面上不存在DOM节点所以无法让搜索引擎搜到对应的信息，其次因为首次加载JS可能体积过大，首屏渲染时间过长，对用户的体验不太友好。同构应用的出现就是为了解决SEO和首屏渲染问题的</p></li>
+
+<li><p>浏览器原生解析HTML会省去JavaScript请求和编译的时间</p></li>
+</ul>
+
+<h2 id="客户端渲染与同构渲染的区别">客户端渲染与同构渲染的区别</h2>
+
+<ul>
+<li><p>客户端渲染首次渲染页面的时间比较长，一般来说会经历三次HTTP请求:</p>
+
+<ol>
+<li>加载HTML文档(文档是单页面，里面仅仅包含一个root节点)<br /></li>
+<li>加载文档中的JavaScript文件<br /></li>
+<li>JavaScript文件中的AJax请求数据</li>
+</ol></li>
+
+<li><p>同构渲染的首次渲染相对来说比较快，一般来说经历两次HTTP请求:</p>
+
+<ol>
+<li>请求后端服务(Node.js返回的HTML文档)<br /></li>
+<li>加载HTML文档所需的JavaScript</li>
+</ol></li>
+</ul>
+
+<h2 id="同构的优缺点">同构的优缺点</h2>
+
+<p>同构的优点:</p>
+
+<ol>
+<li><p>首屏渲染速度更快。<br />
+同构请求后直接返回的是HTML，而不是返回的JavaScript资源。省去了解析JavaScript再进行请求的操作。</p></li>
+
+<li><p>有利于SEO<br />
+正因为同构请求回来的是HTML文档，所以对于搜索引擎检索也会有所帮助。相对的客户端渲染返回的是仅仅是JavaScript，并没有真正对应的节点大大减少了SEO可检索的信息</p></li>
+
+<li><p>前后端可复用部分代码<br />
+其实同构其实没有降低前端的代码量，仅仅是将部分前端代码放到后端Node.js的环境中先执行，再返回给浏览器接管后继续执行后面的代码，而且前面部分的代码还需要兼容Node的环境，需要额外的成本。</p></li>
+
+<li><p>在移动端比较友好<br />
+对于低端的机型，不支持4G 5G的手机来说，可能请求的速率会有所变慢。客户端渲染请求的次数比较多，可能对于低端机型来说不太友好。相反的同构因为是直出HTML的原因，所以可以直接呈现HTML，用户体验相对来说较为友好。</p></li>
+</ol>
+
+<p>同构的缺点:</p>
+
+<ol>
+<li><p>性能的瓶颈<br />
+服务端所需要处理的逻辑增多，对服务端的性能要求比较高(假如原来放在几百万浏览器端的计算工作量，现在用几台服务器进行计算，性能是一个严重的考验)</p></li>
+
+<li><p>服务器和浏览器的差异<br />
+服务端无法完全复用客户端的代码。在服务端某些特定的与客户端某些特定的变量，对象无法完全的复用。(document,window等对象的不存在，前端和服务端渲染的内容不一致等)</p></li>
+
+<li><p>内存溢出问题<br />
+原本前端代码只在浏览器端执行的时候，浏览器环境刷新一遍就会重置内存，但是代码放到后端执行就没有这种自动重置的优势了。</p></li>
+
+<li><p>异步操作<br />
+前端可以做复制的合并请求再延迟处理，但是同构都是预先拿到结果才会渲染的，这些请求往往都是很多依赖条件的。</p></li>
+
+<li><p>store<br />
+store必须是以字符串形式塞到前端中，复杂类型是无法转义成字符串的(例如function)</p></li>
+</ol>
+
+<h2 id="同构实现的核心是">同构实现的核心是</h2>
+
+<ol>
+<li><p>Virtual DOM</p></li>
+
+<li><p>Node服务器的盛行</p>
+
+<p>Virtual DOM本质上是一个普通的JavaScript对象，是对浏览器的DOM对象的一层抽象。React，Vue两个视图层的库才用VirtualDOM的原因除了性能得到很大的提升以外，更重要的是可以<strong>跨端</strong>。Virtual DOM可以在客户端输出组件挂载到对应的DOM节点上，同样的也可以在服务端生成HTML字符串并输出至客户端。</p></li>
+</ol>
+
+<p>同时又因为JavaScript可以同时的运行在Node服务器和客户端浏览器上。使得同构成为可能</p>
+
+<h2 id="顺带提一下同构和预渲染">顺带提一下同构和预渲染</h2>
+
+<p>预渲染和服务端渲染</p>
+
+<ul>
+<li>SEO:单页应用对SEO并不友好，但是预渲染和服务端渲染HTML都是由内容的，对SEO会比较友好<br /></li>
+
+<li><p>弱网环境:当用户在一个弱网环境中访问你的站点的时候，可以尽快的把首屏加载出来，而不是空白页面
+预渲染和服务端渲染不同</p></li>
+
+<li><p>预渲染能与服务端渲染一样提高 SEO 优化，但前者比后者需要更少的配置，实现成本低。弱网环境下，预渲染能更快地呈现页面内容，减少页面可见时间。</p></li>
+
+<li><p>成千上万的路由：不建议预渲染非常多的路由，因为这会严重拖慢你的构建进程。</p></li>
+
+<li><p>经常变化的内容：如果你预渲染一个游戏排行榜，这个排行榜会随着新的玩家记录而更新，预渲染会让你的页面显示不正确直到脚本加载完成并替换成新的数据。这是一个不好的用户体验</p></li>
+</ul>
+
+<h2 id="预渲染的实现">预渲染的实现</h2>
+
+<ul>
+<li>Webpack提供一个强大的插件(prerender-spa-plugin)的这个插件</li>
+<li>原理主要是在webpack构建的最后阶段，在本地启动一个phantomjs，访问了配置预渲染的路由，再将phantomjs中渲染的页面输出到HTML中。并建立路由对应的目录 (PhantomJS是一个基于webkit的JavaScript API,基于webkit可以做到的东西，他都能做到，所以可以渲染路由的页面然后输出到指定的dist文件夹中，并建立路由与之对应的目录)</li>
+</ul>
+
+<h2 id="简单的用react介绍一下同构">简单的用React介绍一下同构</h2>
+
+<ul>
+<li><p>同构的一般架构</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">|- config --------------------------- webpack的config
+|- dist   ---------------------------- 打包后的文件
+|- mock   -------------------------- 需要的mock数据
+|- node_modules
+|- src
+      |- assets ----------------------- 静态资源文件通常放图片
+      |- components --------------- 公共组件
+      |- client
+              |- entry-client.js -------- 客户端的入口文件
+              |- views ------------------ 视图
+              |- styles ------------------ 公共样式和组件样式
+              |- ...
+      |- server
+              |- entry-server.js   ------ 服务端入口文件
+              |- setup-devServer.js--- 开发时的热更新
+              |- ...
+      |- shared
+              |- routes ----------------- 部分相同的路由
+              |- store  ------------------ 部分相同的store
+      |- utils  -----------------------  工具函数
+|- .babelrc ------------------------ babel配置文件</pre></div></li>
+
+<li><p>同构配置的重点</p></li>
+</ul>
+
+<blockquote>
+<p>配置是分客户端和服务端的一共两份配置。客户端的就是原来的客户端。不需要多修改</p>
+</blockquote>
+
+<ol>
+<li><p>服务端的配置</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// webpack.server.config.js
+</span><span style="color:#008000"></span>module.exports = {
+  target:<span style="color:#a31515">&#34;node&#34;</span><span style="color:#008000">// 告诉webpack打包的是运行在node环境，
+</span><span style="color:#008000"></span>  <span style="color:#008000">// 打包完之后是module.exports包裹，而不是一个IIFE
+</span><span style="color:#008000"></span>  entry:{
+    serverApp:path.jain(__dirname,<span style="color:#a31515">&#34;/sever/entry-sever.js&#34;</span>) <span style="color:#008000">// 客户端和服务端的入口都不是不一样的
+</span><span style="color:#008000"></span>  }
+  ...
+  output:{
+    libraryTarget:<span style="color:#a31515">&#34;commonjs2&#34;</span> <span style="color:#008000">// 这里commonjs2是指用最新的commonjs规范来打包
+</span><span style="color:#008000"></span>  }
+...
+}
+</code></pre></div></li>
+
+<li><p>启动Node服务器(express)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">const</span> app = express()
+<span style="color:#00f">const</span> fs = require(<span style="color:#a31515">&#34;fs&#34;</span>)
+...
+HTMLTemplate = fs.readFileSync(
+  path.join(__dirname, <span style="color:#a31515">&#34;../../dist/index.html&#34;</span>),
+  <span style="color:#a31515">&#34;utf8&#34;</span>
+);
+ServerApp = require(path.join(__dirname, <span style="color:#a31515">&#34;../../dist/js/serverApp&#34;</span>));
+app.use(<span style="color:#a31515">&#34;/public&#34;</span>, express.<span style="color:#00f">static</span>(path.join(__dirname, <span style="color:#a31515">&#34;../../dist/&#34;</span>))); <span style="color:#008000">// 引用静态文件
+</span><span style="color:#008000"></span>
+
+app.get(<span style="color:#a31515">&#34;/:path&#34;</span>, <span style="color:#00f">function</span>(req, res) {
+  <span style="color:#00f">let</span> html = ReactDOMServer.renderToString(ServerApp.<span style="color:#00f">default</span>(req,res));
+  <span style="color:#008000">// 这里因为是export default导出来的
+</span><span style="color:#008000"></span>  <span style="color:#00f">let</span> htmlStr = HTMLTemplate.replace(
+    <span style="color:#a31515">&#34;&lt;!-- app --&gt;&#34;</span>,
+    html
+  );
+  <span style="color:#008000">// 将渲染后的html字符串发送给客户端
+</span><span style="color:#008000"></span>  res.send(htmlStr);
+});
+...
+</code></pre></div></li>
+
+<li><p>路由方面的不同</p>
+
+<p>服务端的路由</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">import</span> { StaticRouter } from <span style="color:#a31515">&#34;react-router-dom&#34;</span>;
+<span style="color:#008000">// 服务端中没有DOM 所以不能使用BrowserRouter
+</span><span style="color:#008000"></span><span style="color:#00f">import</span> Routers from <span style="color:#a31515">&#34;../shared/router&#34;</span>;
+<span style="color:#00f">const</span> ServerApp = <span style="color:#00f">function</span>() {
+  <span style="color:#00f">return</span> (
+      <span style="color:#008000">// StaticRouter 必须要传两个参数 一个是context 和 location
+</span><span style="color:#008000"></span>      &lt;StaticRouter context={context} location={req.url}&gt;
+          &lt;Routers /&gt;
+      &lt;<span style="">/StaticRouter&gt;</span>
+  );
+};
+</code></pre></div>
+<p>客户端的路由</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">import</span> ReactDOM from <span style="color:#a31515">&#34;react-dom&#34;</span>;
+<span style="color:#00f">import</span>  {BrowserRouter} from <span style="color:#a31515">&#34;react-router-dom&#34;</span>
+<span style="color:#00f">import</span> Routers from <span style="color:#a31515">&#34;../shared/router&#34;</span>
+<span style="color:#00f">const</span> Client = ()=&gt;{
+  <span style="color:#00f">return</span>(
+    &lt;BrowserRouter&gt;
+        &lt;Routers/&gt;
+    &lt;<span style="">/BrowserRouter&gt;</span>
+  )
+}
+<span style="color:#008000">// ReactDOM 在16.5以后就使用hydrate代替render
+</span><span style="color:#008000"></span>ReactDOM.hydrate(
+  &lt;Client/&gt;,
+  document.getElementById(<span style="color:#a31515">&#34;root&#34;</span>)
+);
+</code></pre></div></li>
+</ol>
+
+<h3 id="参考">参考</h3>
+
+<ol>
+<li><a href="https://github.com/amandakelake/blog/issues/60">后端渲染、客户端渲染(CSR)、同构应用(SSR)</a></li>
+<li><a href="https://juejin.im/post/5bc7ea48e51d450e46289eab">React 中同构（SSR）原理脉络梳理</a></li>
+<li><a href="https://www.huaijiujia.com/category/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/%E6%9E%B6%E6%9E%84%E6%A8%AA%E5%90%91%E5%AF%B9%E6%AF%94/">架构横向对比-精读前后端渲染之争</a><br /></li>
+</ol>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'localhost';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		
+		<div>Powered by <a href="https://gohugo.io/" target="blank">Hugo</a> | Theme -<a href="https://github.com/vividvilla/ezhil" target="blank"> Ezhil</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
