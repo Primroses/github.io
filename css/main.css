@@ -182,7 +182,7 @@ ul {
 }
 
 li.post{
-	list-style-image: url("/css/star.png");
+	list-style-image: url("/myBlog/css/star.png");
 	margin: 10px 0;
 }
 
