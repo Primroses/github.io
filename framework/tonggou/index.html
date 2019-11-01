@@ -2,8 +2,10 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>简单一文助你理解同构 - Front-end habitat</title><link rel="icon" type="image/png" href=https://primroses.github.io/myBlogimg/icon.ico />
-	<link rel="shortcut icon" href=/icon.ico><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>简单一文助你理解同构</title><link rel="icon" type="image/png" href=https://primroses.github.io/myBlogimg/icon.ico />
+	<link rel="shortcut icon" href=/icon.ico><meta name="description" content = "同构 :同构应用是通过客户端和服务端共同作用而成的。服务端先执行HTML文档的生成后，将HTML文档传递给客户端，客户端激活接管后续的页面交互功能"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://primroses.github.io/myBlog/js/main.js"></script>
 	<script src="https://primroses.github.io/myBlog/js/background.js"></script>
@@ -50,7 +52,9 @@
 1.客户端渲染，传统的服务端渲染和同构的概念<br />
 2.它们之间的区别及优缺点<br />
 3.预渲染的简单概念和预渲染跟同构的比较<br />
-4.用React来简单举例同构配置</p>
+4.用React来简单举例同构配置<br />
+5.同构中脱水和注水<br />
+6.具体实践中的一些问题</p>
 
 <p><img src="../../img/framework/1.png" alt="clientRender" /></p>
 
@@ -202,27 +206,48 @@ store必须是以字符串形式塞到前端中，复杂类型是无法转义成
     serverApp:path.jain(__dirname,<span style="color:#a31515">&#34;/sever/entry-sever.js&#34;</span>) <span style="color:#008000">// 客户端和服务端的入口都不是不一样的
 </span><span style="color:#008000"></span>  }
   ...
+  module:{
+    rules:[
+      {
+        test: <span style="color:#a31515">/\.css$/</span>,
+        use: [
+          <span style="color:#008000">// 这个是将css输出成字符串注入到html中 相当于客户端配置的style-loader
+</span><span style="color:#008000"></span>          <span style="color:#008000">// 因为style-loader是有document 和 window这些对象的
+</span><span style="color:#008000"></span>          { loader: <span style="color:#a31515">&#34;isomorphic-style-loader&#34;</span> },
+          {
+            loader: <span style="color:#a31515">&#34;css-loader&#34;</span>,
+            options: {
+              importLoaders: 1,
+              sourceMap: <span style="color:#00f">true</span>,
+              <span style="color:#008000">// css-loader 最新的版本是将 localIdentName 放在modules 配置里面
+</span><span style="color:#008000"></span>              modules: {
+                localIdentName: <span style="color:#a31515">&#34;[name]_[hash:5]&#34;</span>,
+              },
+            }
+          }
+        ]
+      },
+    ]
+  }
+  ...
   output:{
     libraryTarget:<span style="color:#a31515">&#34;commonjs2&#34;</span> <span style="color:#008000">// 这里commonjs2是指用最新的commonjs规范来打包
 </span><span style="color:#008000"></span>  }
-...
+  ...
+  <span style="color:#008000">// 在服务端中模块都在内存中，不需要再次引入
+</span><span style="color:#008000"></span>  externals : [ nodeExternals()]
 }
 </code></pre></div></li>
 
 <li><p>启动Node服务器(express)</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">const</span> app = express()
-<span style="color:#00f">const</span> fs = require(<span style="color:#a31515">&#34;fs&#34;</span>)
 ...
-HTMLTemplate = fs.readFileSync(
-  path.join(__dirname, <span style="color:#a31515">&#34;../../dist/index.html&#34;</span>),
-  <span style="color:#a31515">&#34;utf8&#34;</span>
-);
-ServerApp = require(path.join(__dirname, <span style="color:#a31515">&#34;../../dist/js/serverApp&#34;</span>));
 app.use(<span style="color:#a31515">&#34;/public&#34;</span>, express.<span style="color:#00f">static</span>(path.join(__dirname, <span style="color:#a31515">&#34;../../dist/&#34;</span>))); <span style="color:#008000">// 引用静态文件
-</span><span style="color:#008000"></span>
-
+</span><span style="color:#008000"></span>...
 app.get(<span style="color:#a31515">&#34;/:path&#34;</span>, <span style="color:#00f">function</span>(req, res) {
-  <span style="color:#00f">let</span> html = ReactDOMServer.renderToString(ServerApp.<span style="color:#00f">default</span>(req,res));
+  <span style="color:#008000">// ServerApp是server的入口
+</span><span style="color:#008000"></span>  <span style="color:#008000">// .default是因为是用ES6的模块导出方式，在Node中引入要使用default
+</span><span style="color:#008000"></span>  <span style="color:#00f">let</span> html = ReactDOMServer.renderToString(ServerApp.<span style="color:#00f">default</span>(req,res));
   <span style="color:#008000">// 这里因为是export default导出来的
 </span><span style="color:#008000"></span>  <span style="color:#00f">let</span> htmlStr = HTMLTemplate.replace(
     <span style="color:#a31515">&#34;&lt;!-- app --&gt;&#34;</span>,
@@ -266,7 +291,165 @@ app.get(<span style="color:#a31515">&#34;/:path&#34;</span>, <span style="color:
   document.getElementById(<span style="color:#a31515">&#34;root&#34;</span>)
 );
 </code></pre></div></li>
+
+<li><p>脱水和注水</p>
+
+<p>在正常React应用中，我们通常会在ComponentDidMount的生命周期中执行Ajax相关请求获取数据。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">class</span> App <span style="color:#00f">extends</span> React.Component{
+...
+componentDidMount(){
+  axios.get(<span style="color:#a31515">&#39;http://xxx.xxx.com/xxx/list&#39;</span>)
+    .then((res) =&gt; {
+      <span style="color:#00f">this</span>.setState({
+        list: res.data.data
+      })
+    })
+  }
+...
+}
+</code></pre></div>
+<p>这样确实能拿到数据，但是右键查看网页源代码的时候就会发现是这种样子。</p></li>
 </ol>
+
+<p><img src="https://user-gold-cdn.xitu.io/2019/7/4/16bbce5ce6d84c12?w=1004&amp;h=176&amp;f=png&amp;s=9193" alt="showCode" /></p>
+
+<p>这是因为服务端不会执行ComponentDidMount的生命周期，这个ajax请求只会在客户端中进行请求。所以查看源代码是不会出现有数据的。这个时候就是要在进入路由之前
+需要执行一次ajax请求拿到数据，然后写入HTML页面中并返回。</p>
+
+<p>路由中有一个配置项叫loadData，专门用于服务端先获取数据的</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 对路由进行小改动一下。
+</span><span style="color:#008000">// routes.js
+</span><span style="color:#008000"></span><span style="color:#00f">export</span> <span style="color:#00f">default</span> [
+    {
+      path: ...,
+      component: Home,
+      exact: ...,
+      loadData: Home.loadData,<span style="color:#008000">//服务端获取异步数据的函数
+</span><span style="color:#008000"></span>    }
+];
+
+<span style="color:#008000">// Home.jsx
+</span><span style="color:#008000"></span><span style="color:#00f">class</span> Home <span style="color:#00f">extends</span> React.Component{
+  ...
+  <span style="color:#00f">static</span> loadData = store =&gt; {
+    <span style="color:#00f">return</span> store.dispatch();
+  };
+  ...
+}
+<span style="color:#008000">// 或者是这样写
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> Home(){}
+Home.loadData = store =&gt; {
+  <span style="color:#00f">return</span> store.dispatch();
+};
+</code></pre></div>
+<p>数据拿到以后，要存在哪里呢？这时候我们应该可以想到就是存在store中。store就是类似Redux这种统一管理数据流的库。</p>
+
+<p>因为客户端和服务端的配置不一样。因为客户端需要共享数据，所以只需要生成一个store即可。假如在
+服务端中只生成一个store，但是每个用户访问进来的store都是相同的store，这时候就不能做到每个用户只有自己的store。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// store.js
+</span><span style="color:#008000"></span><span style="color:#00f">import</span> reducers from <span style="color:#a31515">&#34;reducers&#34;</span>;
+<span style="color:#008000">// 这里因为React中需要的是纯函数，但是异步操作都是有副作用的，所以要引入redux-thunk中间件来帮助我们处理异步操作。
+</span><span style="color:#008000"></span><span style="color:#00f">import</span> thunk from <span style="color:#a31515">&#34;redux-thunk&#34;</span>;
+<span style="color:#008000">// 这里有一个初始化的state(在服务端注水的时候初始化的)
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> createclientStore = (preloadedState) =&gt; {
+  <span style="color:#00f">return</span> createStore(reducers,
+    preloadedState, applyMiddleware(thunk));
+};
+
+<span style="color:#00f">const</span> c = () =&gt; {
+  <span style="color:#00f">return</span> createStore(reducers, applyMiddleware(thunk));
+};
+
+<span style="color:#008000">// Server-entry.jsx
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> serverApp(){
+  ...
+  <span style="color:#00f">const</span> store = createServerStore(); <span style="color:#008000">// 每次都要生成一个Store
+</span><span style="color:#008000"></span>  ...
+}
+
+<span style="color:#008000">// Client-entry.js
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> store = createclientStore(); <span style="color:#008000">// 永远只有一个store
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> clientApp(){
+  ...
+    <span style="color:#00f">return</span> (
+    &lt;Provider store={store}&gt;
+      ...
+    &lt;<span style="">/Provider&gt;</span>
+  );
+  ...
+}
+<span style="color:#008000">// ServerApp 每次触发更新都会执行一次createServerStore,但是ClientApp更新不会再执行createClientStore
+</span></code></pre></div>
+<p>这里存放数据的容器store也准备好了，最后只需要执行完所有的loadData的方法，拿到数据注入即可。但是又有一个问题，我们怎么知道
+我们匹配的路由有loadData这个方法呢，假如匹配到有两个组件同时加载，我们又怎么可以一起执行并返回呢。</p>
+
+<p>这时候我们就得用上react-router-config了</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">import</span> { matchRoutes,renderRoutes  } from <span style="color:#a31515">&#34;react-router-config&#34;</span>;
+<span style="color:#008000">// matchRoutes会返回匹配的一个数组，renderRoutes会返回一个
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 改写一下 ServerApp.js
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> serverApp(req){
+  <span style="color:#00f">const</span> matchedRoutes = matchRoutes(routes, req.path);
+  <span style="color:#00f">let</span> promises = [];
+  <span style="color:#00f">const</span> store = getStore(); <span style="color:#008000">// 每次都要生成一个Store
+</span><span style="color:#008000"></span>  matchedRoutes.map(val =&gt; {
+    <span style="color:#00f">if</span> (val.route.loadData) {
+      <span style="color:#008000">// 传入store传递指令 执行action对应的reducers
+</span><span style="color:#008000"></span>      promises.push(val.route.loadData(store));
+    }
+  });
+  <span style="color:#008000">// 因为这里是异步操作，而且可能是多个异步的操作，所以需要借助promise来实现所有异步操作完后执行渲染
+</span><span style="color:#008000"></span>  Promise.all(promises).then(data =&gt; {
+    <span style="color:#00f">let</span> htmlStr = ReactSSR.renderToString()
+    ...
+    res.send(htmlStr);
+    ...
+  })
+}
+</code></pre></div>
+<p>这里仅仅实现了服务端是有数据的，但是客户端因为没有请求接口，无法拿到对应的数据，所以这里还要一个注水的操作。注水的意思是
+将服务端的数据注入到HTML页面中。当执行客户端渲染的时候，直接在HTML页面中拿到全部数据进行渲染，从而实现客户端和服务端渲染同一份数据。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 服务端注水操作
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 这里的template 是在express中传入 或者可以直接手写string模板都可以
+</span><span style="color:#008000">// template.html
+</span><span style="color:#008000"></span>...
+&lt;div id=<span style="color:#a31515">&#34;root&#34;</span>&gt;
+
+&lt;<span style="">/div&gt;</span>
+<span style="color:#008000">&lt;!--</span> script --&gt;
+...
+<span style="color:#008000">// ServerApp.js
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> serverApp(req,res,template){
+  <span style="color:#008000">// 这里是将整个store传递过去。
+</span><span style="color:#008000"></span>  template.replace(<span style="color:#a31515">&#34;&lt;!-- script --&gt;&#34;</span>,<span style="color:#a31515">`&lt;script&gt;window.__INITIAL_STATE__ = {data:</span><span style="color:#a31515">${</span>JSON.stringify(store.getState())<span style="color:#a31515">}</span><span style="color:#a31515">}&lt;/script&gt;`</span>)
+}
+
+<span style="color:#008000">// store.js
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> createclientStore = (preloadedState) =&gt; {
+  <span style="color:#008000">// 当时这里的 preloadedState,就是服务端注水时候的state
+</span><span style="color:#008000"></span>  <span style="color:#00f">return</span> createStore(reducers,
+    preloadedState, applyMiddleware(thunk));
+};
+<span style="color:#008000">// ClientApp.js
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> store = createclientStore(window[<span style="color:#a31515">&#34;__INITIAL_STATE__&#34;</span>].data);<span style="color:#008000">// 初始化的数据是通过注水来的
+</span><span style="color:#008000">// 这样客户端就能拿到数据并注入到全局的store中
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> clientApp(){
+    <span style="color:#008000">// 这里是脱水操作
+</span><span style="color:#008000"></span>    <span style="color:#00f">return</span> (
+    <span style="color:#008000">// 客户端也要 进行 new一个新的 store
+</span><span style="color:#008000"></span>    &lt;Provider store={store}&gt;
+      ...
+    &lt;<span style="">/Provider&gt;</span>
+  );
+}
+</code></pre></div>
+<p>5.具体实践可能遇到的问题</p>
+
+<p>问题：样式可能会抖动的情况。<br />
+  因为服务端返回给客户端的仅仅是一个HTML。假如服务端中的HTML没有样式的话，这个样式只能通过客户端解析css然后出现。但是我们第一次看到的是
+  服务端的代码。等待客户端解析完后，样式显示出来，所以就会有一个抖动的情况。<br />
+  解答：将样式输出为string注入到HTML中(但是需要将css 用css module的形式才能输出成string)</p>
 
 <h3 id="参考">参考</h3>
 
