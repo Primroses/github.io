@@ -2,13 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>简单一文助你理解同构</title><link rel="icon" type="image/png" href=https://primroses.github.io/myBlogimg/icon.ico />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>简单一文助你理解同构</title><link rel="icon" type="image/png" href=localhostimg/icon.ico />
 	<link rel="shortcut icon" href=/icon.ico><meta name="description" content = "同构 :同构应用是通过客户端和服务端共同作用而成的。服务端先执行HTML文档的生成后，将HTML文档传递给客户端，客户端激活接管后续的页面交互功能"/>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://primroses.github.io/myBlog/js/main.js"></script>
-	<script src="https://primroses.github.io/myBlog/js/background.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="localhost/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="localhost/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="localhost/js/main.js"></script>
+	<script src="localhost/js/background.js"></script>
 </head>
 
 <body>
@@ -24,15 +24,19 @@
 		<ul class="flat">
 			
 			<li>
-				<a href="/myBlog/">主页</a>
+				<a href="localhost/">主页</a>
 			</li>
 			
 			<li>
-				<a href="/myBlog/framework">框架</a>
+				<a href="localhost/framework">框架</a>
 			</li>
 			
 			<li>
-				<a href="/myBlog/about">关于</a>
+				<a href="localhost/project">工程化</a>
+			</li>
+			
+			<li>
+				<a href="localhost/about">关于</a>
 			</li>
 			
 		</ul>
@@ -167,7 +171,7 @@ store必须是以字符串形式塞到前端中，复杂类型是无法转义成
 
 <ul>
 <li><p>同构的一般架构</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">|- config --------------------------- webpack的config
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">|- config --------------------------- webpack的config
 |- dist   ---------------------------- 打包后的文件
 |- mock   -------------------------- 需要的mock数据
 |- node_modules
@@ -187,7 +191,8 @@ store必须是以字符串形式塞到前端中，复杂类型是无法转义成
               |- routes ----------------- 部分相同的路由
               |- store  ------------------ 部分相同的store
       |- utils  -----------------------  工具函数
-|- .babelrc ------------------------ babel配置文件</pre></div></li>
+|- .babelrc ------------------------ babel配置文件
+</code></pre></div></li>
 
 <li><p>同构配置的重点</p></li>
 </ul>

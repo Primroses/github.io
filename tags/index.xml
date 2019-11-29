@@ -2,22 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Front-end habitat</title>
-    <link>https://primroses.github.io/myBlog/tags/</link>
+    <link>localhost/tags/</link>
     <description>Recent content in Tags on Front-end habitat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
-    <lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://primroses.github.io/myBlog/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="localhost/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>工程化</title>
+      <link>localhost/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
+      <pubDate>Fri, 29 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>localhost/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>框架</title>
-      <link>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</link>
+      <link>localhost/tags/%E6%A1%86%E6%9E%B6/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</guid>
+      <guid>localhost/tags/%E6%A1%86%E6%9E%B6/</guid>
       <description></description>
     </item>
     

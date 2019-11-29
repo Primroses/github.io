@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>前端工程化之Eslint代码规范</title><link rel="icon" type="image/png" href=localhostimg/icon.ico />
+	<link rel="shortcut icon" href=/icon.ico><meta name="description" content = "ESLint，它是一款插件化的 JavaScript 代码静态检查工具，其核心是通过对代码解析得到的 AST（Abstract Syntax Tree，抽象语法树）进行模式匹配，定位不符合约定规范的代码"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="localhost/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="localhost/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="localhost/js/main.js"></script>
+	<script src="localhost/js/background.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Front-end habitat</h1>
+	<div class="site-description "><div class="subtitle">Record My growth experiences</div><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/Primroses" title="Github"><i data-feather="github"></i></a><a href="https://github.com/Primroses" title="heart"><i data-feather="hexagon"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="localhost/">主页</a>
+			</li>
+			
+			<li>
+				<a href="localhost/framework">框架</a>
+			</li>
+			
+			<li>
+				<a href="localhost/project">工程化</a>
+			</li>
+			
+			<li>
+				<a href="localhost/about">关于</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h2 class="title">前端工程化之Eslint代码规范</h2>
+			<div class="meta">Posted at &mdash; Nov 29, 2019</div>
+		</div>
+
+		<div class="markdown">
+			
+
+<p>阅读本文你可以了解到<br />
+1.前端工程化中代码规范的重要性<br />
+2.Eslint的基本概念<br />
+3.项目中的配置和IDE的配置等<br />
+4.Eslint的基本原理</p>
+
+<h2 id="前端工程化中代码规范的重要性">前端工程化中代码规范的重要性</h2>
+
+<blockquote>
+<p>讲个简短的故事(纯属虚构)</p>
+</blockquote>
+
+<ul>
+<li>背景描述:前端团队有四个人，各有风格，分别为小A，小B，小C，小D。</li>
+<li>剧情演说:一天接到一个紧急需求，必须在短时间内上线一个任务。小A接到后分配给小B小C和小D。<br />
+他们四个分别开始工作了。他们也很勤快的加班，在规定的时间内也完成了任务。大伙都歇了一口气。<br />
+突然，线上出现了一个bug，小B写的代码特别有自己的个性，反正平常人看不懂。小A这时候看到之后，<br />
+脱口大骂，&hellip;(省略一点字)，这谁写的代码，这么糟糕，哪像人写的。然后小B就不服，两个人就刚起来了，<br />
+小C和小D纷纷劝架才发现，原来是代码规范的问题。</li>
+</ul>
+
+<p>程序员每天都跟代码打交道，你写的代码，就像女孩子的脸一样，是给人看的。女孩子都会在脸上化化妆，<br />
+让自己变得更加漂亮，而我们写的代码也要有条理，规范。这样别人就觉得这个人也很有程序员的素养<br />
+不仅如此，一个团队中，如果各有各的代码规范，很容易就会出现沟通上的问题，而且同一代码规范有助于<br />
+在写代码的时候就发现出错的存在，减少bug的数量。在大型团队合作的时候，良好的代码规范就显得格外重要了<br />
+在技术层面上因为公司团队的业务可能不尽相同。技术栈也可能不太同一，这时候更应该注重代码的规范了。</p>
+
+<h2 id="简单介绍一下eslint">简单介绍一下Eslint</h2>
+
+<p>前端开源社区中也是百花争鸣，衍生出又JSLint,JSHint,ESlint,TSLint等等。<br />
+因为TSLint是专门解析TypeScript，官方团队而且也宣布放弃维护，转向开发ESLint了<br />
+JSLint的灵活性几乎为0，要全盘接受JSLint的建议，并且全部是warning，给开发者不太灵活的开发体验。
+JSHint与JSLint相比较之下，更友好，也更容易配置。但是因为是基于JSLint的开发的，原有的问题就继承下来，不容易扩展，不直接提示错误位置<br />
+ESLint初衷就是为了能让开发者能自定义自己rules,并且提供一套完善的插件系统。</p>
+
+<h2 id="项目中的eslint的配置">项目中的ESlint的配置</h2>
+
+<p><img src="../../img/project/eslint.png" alt="eslint" /></p>
+
+<p>使用Eslint</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">//全局
+</span><span style="color:#008000"></span>$sudo npm install eslint -g
+
+<span style="color:#008000">//项目
+</span><span style="color:#008000"></span>$sudo npm install eslint -d
+</code></pre></div>
+<p>在项目中新建.eslintrc.js文件。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$sudo touch .eslintrc.js
+
+module.exports = {
+    // env声明你使用的环境 例如 node,browser。
+    env: {},
+    // 这是对已经写好的插件进行继承，例如JSstandard标准和Airbnb标准等
+    extends: [],
+    // 可以自定义明确知道哪些变量是跳过检测 例如$ (jQuery)
+    globals: {},
+    // 使用什么解析器进行解析 babel/typescript
+    parser: <span style="color:#a31515">&#34;&#34;</span>,
+    // 编译器选项
+    parserOptions: {},
+    // 扩展eslint的功能的插件，例如prettier
+    plugins: [],
+    // 假如extends标准的你不喜欢，可以通过rule进行覆盖
+    rules: {}
+};
+
+Standard标准是开箱即用的，内置有格式化代码的工具，所以直接格式化的即可，
+
+Airbnb就没有内置格式化工具，通常都会搭配Prettier进行使用。并且Airbnb对React的支持友好。</code></pre></div>
+<h3 id="假如使用airbnb规范的-搭配prettier">假如使用Airbnb规范的，搭配Prettier</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">$sudo touch prettier.config.js
+
+module.exports = {
+    // 一行最多 100 字符
+    printWidth: 100,
+    // 使用 4 个空格缩进
+    tabWidth: 4,
+    // 不使用缩进符，而使用空格
+    useTabs: false,
+    // 行尾需要有分号
+    semi: false,
+    // 使用单引号
+    singleQuote: true,
+    // 对象的 key 仅在必要时用引号
+    quoteProps: <span style="color:#a31515">&#39;as-needed&#39;</span>,
+    // jsx 不使用单引号，而使用双引号
+    jsxSingleQuote: false,
+    // 末尾不需要逗号
+    trailingComma: <span style="color:#a31515">&#39;none&#39;</span>,
+    // 大括号内的首尾需要空格
+    bracketSpacing: true,
+    // jsx 标签的反尖括号需要换行
+    jsxBracketSameLine: false,
+    // 箭头函数，只有一个参数的时候，也需要括号
+    arrowParens: <span style="color:#a31515">&#39;always&#39;</span>,
+    // 每个文件格式化的范围是文件的全部内容
+    rangeStart: 0,
+    rangeEnd: Infinity,
+    // 不需要写文件开头的 @prettier
+    requirePragma: false,
+    // 不需要自动在文件开头插入 @prettier
+    insertPragma: false,
+    // 使用默认的折行标准
+    proseWrap: <span style="color:#a31515">&#39;preserve&#39;</span>,
+    // 根据显示样式决定 html 要不要折行
+    htmlWhitespaceSensitivity: <span style="color:#a31515">&#39;css&#39;</span>,
+    // 换行符使用 lf
+    endOfLine: <span style="color:#a31515">&#39;lf&#39;</span>
+}</code></pre></div>
+<h3 id="假如使用vscode还得继续增加配置-下载eslint和prettier插件">假如使用Vscode还得继续增加配置，下载Eslint和Prettier插件</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Bash" data-lang="Bash">设置工作区中的setting文件
+{
+    <span style="color:#a31515">&#34;editor.formatOnSave&#34;</span>: true,
+    <span style="color:#a31515">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#a31515">&#34;esbenp.prettier-vscode&#34;</span>,
+    <span style="color:#a31515">&#34;eslint.validate&#34;</span>: [
+        <span style="color:#a31515">&#34;javascript&#34;</span>,
+        <span style="color:#a31515">&#34;javascriptreact&#34;</span>,
+        {
+            <span style="color:#a31515">&#34;language&#34;</span>: <span style="color:#a31515">&#34;vue&#34;</span>,
+            <span style="color:#a31515">&#34;autoFix&#34;</span>: true
+        },
+        {
+            <span style="color:#a31515">&#34;language&#34;</span>: <span style="color:#a31515">&#34;typescript&#34;</span>,
+            <span style="color:#a31515">&#34;autoFix&#34;</span>: true
+        },
+        {
+            <span style="color:#a31515">&#34;language&#34;</span>: <span style="color:#a31515">&#34;typescriptreact&#34;</span>,
+            <span style="color:#a31515">&#34;autoFix&#34;</span>: true
+        }
+    ],
+}</code></pre></div>
+<p>在webpack中运用,loader或者是preloader都可以</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">module: {
+  <span style="color:#008000">// 使用loader
+</span><span style="color:#008000"></span>  loaders: [
+    ...
+    {
+      test: <span style="color:#a31515">/\.(js|jsx)$/</span>,
+      exclude: <span style="color:#a31515">/node_modules/</span>,
+      loader: <span style="color:#a31515">&#39;eslint-loader&#39;</span>
+    }
+    ...
+    <span style="color:#008000">// preLoader 都可以
+</span><span style="color:#008000"></span>      preLoaders: [
+      {
+        test: <span style="color:#a31515">/\.(js|jsx)$/</span>,
+        exclude: <span style="color:#a31515">/node_modules/</span>,
+        loader: <span style="color:#a31515">&#39;eslint-loader&#39;</span>,
+      },
+    ],
+    ...
+},
+</code></pre></div>
+<h2 id="简单介绍一下eslint的原理">简单介绍一下Eslint的原理</h2>
+
+<p>一张简单的图描述一下Eslint整个工作的过程</p>
+
+<p><img src="../../img/project/2.png" alt="eslint" /></p>
+
+<p>ESLint利用的是将JS代码转换为抽象语法树，然后进行静态分析的方法，最后定位到问题的所在。</p>
+
+<p>ESLint关键的是rule，顾名思义，就是匹配的规则，这个规则可能是多条，也可能是单条。<br />
+匹配完以后有三个选项，0 = error,1 = warn, 2 = off</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">    rules: {
+        <span style="color:#a31515">&#34;no-console&#34;</span>: 0, <span style="color:#008000">// 假如是有console的 就报error
+</span><span style="color:#008000"></span>        <span style="color:#a31515">&#34;no-unused-vars&#34;</span>: 1, <span style="color:#008000">// 定义的变量没有使用就 warning
+</span><span style="color:#008000"></span>    }
+</code></pre></div>
+<p>ESLint是通过espree来解析JS代码，生成抽象语法树。AST提供很多规则可以选中特定的代码片段</p>
+
+<h3 id="rule具体的工作">rule具体的工作</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// no-console.js
+</span><span style="color:#008000"></span>module.exports = {
+    meta:{
+        ...
+        scheme :[] <span style="color:#008000">// 这里是匹配的规则
+</span><span style="color:#008000"></span>        ...
+    },
+    <span style="color:#008000">// 描述这条 rule匹配了之后要怎么做，怎么去分析代码
+</span><span style="color:#008000"></span>    create:(context)=&gt;{
+        <span style="color:#008000">// 判断名字里面是否存在console
+</span><span style="color:#008000"></span>        <span style="color:#00f">function</span> isConsole(reference) {
+            <span style="color:#00f">const</span> id = reference.identifier;
+            <span style="color:#00f">return</span> id &amp;&amp; id.name === <span style="color:#a31515">&#34;console&#34;</span>;
+        }
+    }
+}
+</code></pre></div>
+<h2 id="参考文章">参考文章</h2>
+
+<ol>
+<li><a href="https://zhuanlan.zhihu.com/p/53680918">ESLint 工作原理探讨</a></li>
+<li><a href="https://tech.meituan.com/2019/08/01/eslint-application-practice-in-medium-and-large-teams.html">ESLint 在中大型团队的应用实践</a></li>
+</ol>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'localhost';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		
+		<div>Powered by <a href="https://gohugo.io/" target="blank">Hugo</a> | Theme -<a href="https://github.com/vividvilla/ezhil" target="blank"> Ezhil</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>
