@@ -3,56 +3,56 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>localhost/</loc>
+    <loc>https://primroses.github.io/myBlog/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/project/</loc>
+    <loc>https://primroses.github.io/myBlog/project/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/tags/</loc>
+    <loc>https://primroses.github.io/myBlog/tags/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/project/eslint/</loc>
+    <loc>https://primroses.github.io/myBlog/project/eslint/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</loc>
+    <loc>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/framework/</loc>
+    <loc>https://primroses.github.io/myBlog/framework/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/tags/%E6%A1%86%E6%9E%B6/</loc>
+    <loc>https://primroses.github.io/myBlog/tags/%E6%A1%86%E6%9E%B6/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/framework/tonggou/</loc>
+    <loc>https://primroses.github.io/myBlog/framework/tonggou/</loc>
     <lastmod>2019-10-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/about/</loc>
+    <loc>https://primroses.github.io/myBlog/about/</loc>
     <lastmod>2019-10-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>localhost/categories/</loc>
+    <loc>https://primroses.github.io/myBlog/categories/</loc>
   </url>
   
   <url>
-    <loc>localhost/series/</loc>
+    <loc>https://primroses.github.io/myBlog/series/</loc>
   </url>
   
 </urlset>

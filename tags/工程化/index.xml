@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>工程化 on Front-end habitat</title>
-    <link>localhost/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
+    <link>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
     <description>Recent content in 工程化 on Front-end habitat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
     <lastBuildDate>Fri, 29 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="localhost/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>前端工程化之Eslint代码规范</title>
-      <link>localhost/project/eslint/</link>
+      <link>https://primroses.github.io/myBlog/project/eslint/</link>
       <pubDate>Fri, 29 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>localhost/project/eslint/</guid>
+      <guid>https://primroses.github.io/myBlog/project/eslint/</guid>
       <description>阅读本文你可以了解到 1.前端工程化中代码规范的重要性 2.Eslint的基本概念 3.项目中的配置和IDE的配置等 4.Eslint的基本原理 前端</description>
     </item>
     

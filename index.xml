@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Front-end habitat</title>
-    <link>localhost/</link>
+    <link>https://primroses.github.io/myBlog/</link>
     <description>Recent content on Front-end habitat</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
     <lastBuildDate>Fri, 29 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="localhost/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://primroses.github.io/myBlog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>前端工程化之Eslint代码规范</title>
-      <link>localhost/project/eslint/</link>
+      <link>https://primroses.github.io/myBlog/project/eslint/</link>
       <pubDate>Fri, 29 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>localhost/project/eslint/</guid>
+      <guid>https://primroses.github.io/myBlog/project/eslint/</guid>
       <description>阅读本文你可以了解到 1.前端工程化中代码规范的重要性 2.Eslint的基本概念 3.项目中的配置和IDE的配置等 4.Eslint的基本原理 前端</description>
     </item>
     
     <item>
       <title>简单一文助你理解同构</title>
-      <link>localhost/framework/tonggou/</link>
+      <link>https://primroses.github.io/myBlog/framework/tonggou/</link>
       <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>localhost/framework/tonggou/</guid>
+      <guid>https://primroses.github.io/myBlog/framework/tonggou/</guid>
       <description>阅读本文你可以了解到 1.客户端渲染，传统的服务端渲染和同构的概念 2.它们之间的区别及优缺点 3.预渲染的简单概念和预渲染跟同构的比较 4.用Re</description>
     </item>
     
     <item>
       <title>关于我</title>
-      <link>localhost/about/</link>
+      <link>https://primroses.github.io/myBlog/about/</link>
       <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>localhost/about/</guid>
+      <guid>https://primroses.github.io/myBlog/about/</guid>
       <description>一个很想努力证明自己的前端 A front-end guy who really wants to prove himself 一直努力向前 Keep moving 以此记录自己不断前行的脚印 In order to record my footprints Pay tribute every one who love The front Field like me or more love than me github</description>
     </item>
     
