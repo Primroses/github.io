@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Others on Front-end habitat</title>
+    <link>https://primroses.github.io/myBlog/others/</link>
+    <description>Recent content in Others on Front-end habitat</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>© Copyright notice</copyright>
+    
+	<atom:link href="https://primroses.github.io/myBlog/others/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>算法训练营作业</title>
+      <link>https://primroses.github.io/myBlog/others/homework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://primroses.github.io/myBlog/others/homework/</guid>
+      <description>Day01 Question:给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。 不要使用额外的数组空间</description>
+    </item>
+    
+  </channel>
+</rss>
