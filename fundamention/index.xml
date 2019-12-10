@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fundamentions on Front-end habitat</title>
+    <link>https://primroses.github.io/myBlog/fundamention/</link>
+    <description>Recent content in Fundamentions on Front-end habitat</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>© Copyright notice</copyright>
+    <lastBuildDate>Sat, 12 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://primroses.github.io/myBlog/fundamention/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基础</title>
+      <link>https://primroses.github.io/myBlog/fundamention/readme/</link>
+      <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://primroses.github.io/myBlog/fundamention/readme/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

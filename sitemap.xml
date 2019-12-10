@@ -43,7 +43,17 @@
   </url>
   
   <url>
+    <loc>https://primroses.github.io/myBlog/fundamention/</loc>
+    <lastmod>2019-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://primroses.github.io/myBlog/about/</loc>
+    <lastmod>2019-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/fundamention/readme/</loc>
     <lastmod>2019-10-12T00:00:00+00:00</lastmod>
   </url>
   
@@ -52,15 +62,7 @@
   </url>
   
   <url>
-    <loc>https://primroses.github.io/myBlog/others/</loc>
-  </url>
-  
-  <url>
     <loc>https://primroses.github.io/myBlog/series/</loc>
-  </url>
-  
-  <url>
-    <loc>https://primroses.github.io/myBlog/others/homework/</loc>
   </url>
   
 </urlset>
