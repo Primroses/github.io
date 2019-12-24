@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>通俗易懂理解__proto__和prototype的那些事</title><link rel="icon" type="image/png" href=https://primroses.github.io/myBlogimg/icon.ico />
+	<link rel="shortcut icon" href=/icon.ico><meta name="description" content = "每个JS对象一定对应一个原型对象，并从原型对象继承属性和方法。"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://primroses.github.io/myBlog/js/main.js"></script>
+	<script src="https://primroses.github.io/myBlog/js/background.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Front-end habitat</h1>
+	<div class="site-description "><div class="subtitle">Record My growth experiences</div><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/Primroses" title="Github"><i data-feather="github"></i></a><a href="https://github.com/Primroses" title="heart"><i data-feather="hexagon"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/myBlog/">主页</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/fundamention">基础</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/framework">框架</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/project">工程化</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/about">关于</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h2 class="title">通俗易懂理解__proto__和prototype的那些事</h2>
+			<div class="meta">Posted at &mdash; Dec 24, 2019</div>
+		</div>
+
+		<div class="markdown">
+			
+
+<p>阅读本文你可以了解到(如果你是老手可以暂时忽略)</p>
+
+<ol>
+<li>搞清楚<code>__proto__</code>和prototype指的是什么</li>
+<li>他们之间又有什么千丝万缕的关系</li>
+<li>大家口中常说的原型链又是什么</li>
+<li>Function和Object之间的关系</li>
+</ol>
+
+<h3 id="proto-和prototype是什么"><strong>proto</strong>和prototype是什么</h3>
+
+<ul>
+<li>知识储备</li>
+</ul>
+
+<blockquote>
+<p>假如某些同学没有看过红宝石或者是犀牛书的。这里有一段描述:每一个JavaScript的对象都会对应一个原型对象，并从原型对象上继承属性和方法</p>
+</blockquote>
+
+<p>当我们创建一个对象的时候</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">let</span> obj = <span style="color:#00f">new</span> Object()
+<span style="color:#008000">// 当我们打印 obj 的时候
+</span><span style="color:#008000"></span>- { }
+  |- __proto__: Object
+</code></pre></div>
+<p>控制台显示了我们想要了解的东西<code>__proto__</code>,假如我们展开<code>__proto__</code>里面有很多属性和方法，这些就是存在Object对象上的属性和方法。所以我们可以大胆猜测这个是我们知识储备中，每个JavaScript对象都会对应的原型。</p>
+
+<p>这里又有一个猜测，既然对象又<code>__proto__</code>,那么是不是对象也有prototype呢。当你高高兴兴在输入以后&hellip;&hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">console.log(obj.prototype) <span style="color:#008000">// undefined
+</span></code></pre></div>
+<p>控制台马上当头一棒，没想到输出的是undefined，这也告诉我们，普通对象是没有<strong>prototype</strong>属性的，那假如普通对象没有prototype，那什么对象才有呢。</p>
+
+<p>这时候我们想到了JavaScript万物皆对象，Function也是对象呀。那是不是prototype是在Function上面呢，再实践一回过后&hellip;&hellip;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">function</span> fun(){}
+
+console.log(fun.prototype)
+
+<span style="color:#008000">// 这会输出什么呢??
+</span><span style="color:#008000"></span>- {constructor: ƒ}
+  |constructor: ƒ fun()
+  |__proto__: Object
+</code></pre></div>
+<p>打印之后，真的有东西出来而不是undefined呀。而且比普通对象不同的是，还有一个constructor属性。这个属性从名字看，好像我们认识的构造函数(构造的意思)实践过后就可以敲黑板做笔记啦</p>
+
+<h4 id="笔记-每个对象都有的属性是-proto-每个函数都有的属性是prototype">笔记：每个对象都有的属性是<code>__proto__</code>,每个函数都有的属性是prototype</h4>
+
+<p>当同学们在控制台上写下<code>console.log(&quot;对象&quot;)</code>的时候，输出的肯定有<code>__proto__</code>，可能还有该对象上的属性和方法。那为什么每个函数都有prototype呢？当你创建一个函数的时候JavaScript会自动添加prototype属性到函数上。这个属性是一个指针，指向的是一个对象。这个对象有一个属性，是上面打印的constructor属性，这个也是一个指针，指向构造函数。也就是说当你创建一个函数的时候，内部自动会添加上的prototype属性</p>
+
+<p><strong>ps1</strong>这里有一个表述的问题。不是prototype是原型对象，是prototype指向的是原型对象，prototype本身是一个指针，指针，指针。</p>
+
+<p><strong>ps2</strong>这里的prototype也有特例，通过bind绑定生成的函数是没有prototype属性的</p>
+
+<h4 id="笔记重点难点解惑">笔记重点难点解惑</h4>
+
+<ol>
+<li><p>这里说到prototype 是所有<strong>实例</strong>的共享<strong>方法</strong>和<strong>属性</strong>的,举个例子</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 一个简单的构造方法
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> Person(name:string,age:number){
+<span style="color:#00f">this</span>.name = name;
+<span style="color:#00f">this</span>.age = age;
+}
+<span style="color:#008000">// 函数prototype 指向的是一个对象，一个共享的对象，可以让实例共享
+</span><span style="color:#008000"></span>Person.prototype.getName = <span style="color:#00f">function</span>(){
+<span style="color:#008000">// 这里的this，因为是实例共享的，可以简单的理解为指向实例
+</span><span style="color:#008000"></span><span style="color:#00f">return</span> <span style="color:#00f">this</span>.name
+}
+<span style="color:#008000">// 所以当你 new 两个不同对象的时候
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> xiaoming = <span style="color:#00f">new</span> Person(<span style="color:#a31515">&#34;小明&#34;</span>,20)
+<span style="color:#00f">const</span> xiaohong = <span style="color:#00f">new</span> Person(<span style="color:#a31515">&#34;小红&#34;</span>,20)
+<span style="color:#008000">// 当你都调用getName的时候.....
+</span><span style="color:#008000"></span>console.log(xiaoming.getName()) <span style="color:#008000">// 小明
+</span><span style="color:#008000"></span>console.log(xiaohong.getName()) <span style="color:#008000">// 小红
+</span><span style="color:#008000">// 是不是自然而然的跟你想的一样呢?
+</span></code></pre></div></li>
+
+<li><p>prototype上有一个属性constructor,指向的是构造函数，有了这句话我们可以很快的确定这个表达式铁定正确</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">Person.prototype.constructor === Person
+</code></pre></div></li>
+</ol>
+
+<p>这里的Person原本就是一个构造函数，加上Person的prototype属性上的constructor就是指向构造函数的。两者结合，答案就是这么简单。</p>
+
+<h3 id="proto-跟prototype又是怎么联系起来的呢"><code>__proto__</code>跟prototype又是怎么联系起来的呢</h3>
+
+<p>我们继续从实践出发，继续敲下<code>console.log({})</code>,这时出现的东西是我们的老伙伴<code>__proto__</code>了</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">console.log({})
+- { }
+  |- __proto__: Object
+</code></pre></div>
+<p>这里的<code>__proto__</code>是我们刚刚说的一个属性，但是我们并不知道他的属性是什么。刚刚我们猜测的是指向的是原型对象，并从原型对象上继承方法。有了上面的实践结果，我们就可以继续验证一下是否正确了。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">let</span> obj = {};
+obj.__proto__ === Object.prototype <span style="color:#008000">// true
+</span></code></pre></div>
+<p>控制台上显示的结果是<code>true</code>。这样也验证了我们刚开始的猜想，<strong>实例的<code>__proto__</code>指向的是构造这个实例的函数的原型对象</strong>。去到这里基本上我们已经清楚了<code>__proto__</code>和<code>prototype</code>之间的关系了。</p>
+
+<h4 id="笔记-简单总结-proto-和-prototype">笔记：简单总结<code>__proto__</code>和<code>prototype</code></h4>
+
+<p>JavaScript不同于传统强类型语言Java，C++，没有提出类这个概念。JavaScript是通过函数去模拟类，并通过原型去实现构造实例对象。原型你可以这样理解：每一个JavaScript对象(null除外)在创建的时候就会与之<strong>关联</strong>另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型<strong>继承</strong>属性。在这里原型就是我们刚刚所说的<code>prototype</code>指向的对象，你可以通过<code>prototype</code>属性去访问。每一个新创建的实例怎么去关联原型呢，答案就是<code>__proto__</code>。实例通过<code>__proto__</code>属性可以找到<code>prototype</code>从而继承属性和方法。这里可以上一张小图可以更加清楚的理解。</p>
+
+<p><img src="../../img/fundamention/img1.png" alt="__proto__/prototype" /></p>
+
+<h3 id="原型链">原型链</h3>
+
+<p>原型链字面意思理解，原型之间连接一起来形成一条链就是原型链。恭喜你，你已经理解原型链了。开什么玩笑，就这？取关，退订，double kill。</p>
+
+<p>我们先用一个别的概念来帮助理解原型链。生物学中食物链都听过吧。经典语录之螳螂捕蝉黄雀在后，这就是经典的食物链，螳螂吃蝉，黄雀吃螳螂。食物链是指生态圈中物质和能量转化之间的关系。</p>
+
+<p>那么说回来，原型链又是什么？又到了老师手把手教学实践环节&hellip;..</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 原型链 首先得有原型，原型在哪里有呢，函数里面呀
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> Person(name,age){
+    <span style="color:#00f">this</span>.name = name;
+    <span style="color:#00f">this</span>.age = age;
+}
+<span style="color:#008000">//我们有原型之后，那么怎么连接起来呢 实例不是有一个属性可以跟原型连接的吗？
+</span><span style="color:#008000"></span><span style="color:#00f">let</span> ming = <span style="color:#00f">new</span> Person(<span style="color:#a31515">&#34;小明&#34;</span>,20)
+
+<span style="color:#008000">// 这样链接只是实例与原型的链接呀 那原型与原型怎么链接的呢?
+</span><span style="color:#008000"></span>ming.__proto__ === Person.prototype
+
+<span style="color:#008000">// 别忘了prototype也是一个对象呀，对象就铁定有 __proto__属性的呀,先别急，打印一下
+</span><span style="color:#008000"></span>console.log(Person.prototype.__proto__)
+
+<span style="color:#008000">// 同学们看到了不是undefined，是什么呢？没错就是Object.prototype。如果不行的话，那就再来验证一下
+</span><span style="color:#008000"></span>console.log(Person.prototype.__proto__ === Object.prototype)
+
+<span style="color:#008000">// 是不是返回true呢？ 所以原型就是通过 __proto__这个属性链接起来的
+</span></code></pre></div>
+<h4 id="笔记-原型链是函数的原型通过-proto-属性链接起来形成一条原型链">笔记：原型链是函数的原型通过<code>__proto__</code>属性链接起来形成一条原型链</h4>
+
+<p>既然我们知道原型链是什么，那么原型链的作用又是什么呢？同学们先思考一下</p>
+
+<p>我们以前是不是有这样一个情景，对象原型本身不存在的方法，但是对象也可以使用的情景。例如<code>toString</code>方法是不是每个对象(除了null以外)都可以使用呢？</p>
+
+<p>接下来到了老师引导学生实践环节</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 我们先新建一个函数，照抄一下Person
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> Person(name,age){
+    <span style="color:#00f">this</span>.name = name;
+    <span style="color:#00f">this</span>.age = age;
+}
+
+<span style="color:#008000">// 新建一个对象
+</span><span style="color:#008000"></span><span style="color:#00f">let</span> ming = <span style="color:#00f">new</span> Person(<span style="color:#a31515">&#34;xiaoming&#34;</span>,20)
+
+<span style="color:#008000">// 尝试一下执行toString 方法
+</span><span style="color:#008000"></span>ming.toString() <span style="color:#008000">// &#34;[object Object]&#34;
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 我们Person的原型上没有这个方法呀，但是为什么我们能执行这个方法呢？这个方法是存在哪里的呢？
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 我们打印一下 ming 这个对象
+</span><span style="color:#008000"></span>- Person { name:小明<span style="">，</span>age:20 }
+  |- __proto__:Object
+    |- construcotr:ƒ Person(name,age)
+    |- __proto__:Object
+      |- ...
+      |- toString: ƒ toString()
+      |- ...
+</code></pre></div>
+<p>去到这里我们发现了toString方法是在Object.prototype上的，我们也可以知道了，ming这个对象调用<code>toString</code>方法的时候调用的是Object原型上的方法。为什么会这样呢。同学们做笔记啦</p>
+
+<h4 id="笔记对象在访自身原生不存在的属性和方法的时候-会顺着原型链寻找-假如找到的直接使用-没找到就返回undefined了">笔记对象在访自身原生不存在的属性和方法的时候，会顺着原型链寻找，假如找到的直接使用，没找到就返回Undefined了</h4>
+
+<p>在这里可以补充一下上面的小图，更加帮助理解</p>
+
+<p><img src="../../img/fundamention/img2.png" alt="__proto__/prototype" /></p>
+
+<h3 id="最后到了鸡生蛋和蛋生鸡的问题了">最后到了鸡生蛋和蛋生鸡的问题了</h3>
+
+<p>由一段代码引起的问题</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// instanceof 运算符是 a 是 b 的实例即 a instanceof b 为 true，默认判断条件就是 b.prototype 在 a 的原型链上。
+</span><span style="color:#008000"></span>Function <span style="color:#00f">instanceof</span> Object <span style="color:#008000">// true
+</span><span style="color:#008000"></span>
+Object <span style="color:#00f">instanceof</span> Function <span style="color:#008000">// true
+</span></code></pre></div>
+<p>这到底是怎么回事呢？到底是谁构造谁？</p>
+
+<p>其实这个问题得慢慢说通，可能得花时间慢慢琢磨</p>
+
+<h4 id="笔记-先有object-prototype-原型链顶端-function-prototype继承object-prototype而产生-最后-function和object和其它构造函数继承-function-prototype-而产生">笔记: 先有Object.prototype（原型链顶端），Function.prototype继承Object.prototype而产生，最后，Function和Object和其它构造函数继承 Function.prototype 而产生</h4>
+
+<h4 id="重点难点解惑">重点难点解惑</h4>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">Object.prototype.__proto__ === <span style="color:#00f">null</span> <span style="color:#008000">// 原型链的顶端，此处不应该有值
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 这里表明 Function的原型对象是由 Object原型构造出来的，所以Function能在原型链上找到Object
+</span><span style="color:#008000"></span>Function.prototype.__proto__ === Object.prototype <span style="color:#008000">// true
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 但是又因为 Object本身是一个构造函数，既然你跟函数有关系了那铁定有如下关系
+</span><span style="color:#008000"></span>Object.__proto__ === Function.prototype <span style="color:#008000">// true
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 因为Object在作为构造函数的时候是由Function的原型所构造的，Object能在原型链上找到Function
+</span></code></pre></div>
+<p>快乐的一堂课就愉快的结束了，假如有表述错误的地方，欢迎同学们来指出，假如写的好就点波关注</p>
+
+<h3 id="参考">参考</h3>
+
+<ol>
+<li><a href="https://github.com/jawil/blog/issues/13">从探究Function.<strong>proto</strong>===Function.prototype过程中的一些收获</a></li>
+<li><a href="https://github.com/creeperyang/blog/issues/9">从<strong>proto</strong>和prototype来深入理解JS对象和原型链</a></li>
+<li><a href="https://github.com/mqyqingfeng/blog/issues/2">JavaScript深入之从原型到原型链</a></li>
+</ol>
+
+		</div><div id="disqus_thread"></div>
+<script type="text/javascript">
+	(function () {
+		
+		
+		if (window.location.hostname == "localhost")
+			return;
+
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		var disqus_shortname = 'localhost';
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+		Disqus.</a></noscript>
+
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		
+		<div>Powered by <a href="https://gohugo.io/" target="blank">Hugo</a> | Theme -<a href="https://github.com/vividvilla/ezhil" target="blank"> Ezhil</a></div>
+	</nav>
+</div>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123-45', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<script>feather.replace()</script>
+</body>
+</html>

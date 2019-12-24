@@ -4,16 +4,31 @@
   
   <url>
     <loc>https://primroses.github.io/myBlog/</loc>
-    <lastmod>2019-11-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://primroses.github.io/myBlog/project/</loc>
-    <lastmod>2019-11-29T00:00:00+00:00</lastmod>
+    <loc>https://primroses.github.io/myBlog/fundamention/</loc>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://primroses.github.io/myBlog/tags/</loc>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/tags/%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/fundamention/prototype___proto__/</loc>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/project/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   
@@ -43,17 +58,7 @@
   </url>
   
   <url>
-    <loc>https://primroses.github.io/myBlog/fundamention/</loc>
-    <lastmod>2019-10-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://primroses.github.io/myBlog/about/</loc>
-    <lastmod>2019-10-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://primroses.github.io/myBlog/fundamention/readme/</loc>
     <lastmod>2019-10-12T00:00:00+00:00</lastmod>
   </url>
   
