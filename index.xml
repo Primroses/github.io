@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
-    <lastBuildDate>Tue, 24 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://primroses.github.io/myBlog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>想无缝连接 Vue3.0，先体验一下 composition-api</title>
+      <link>https://primroses.github.io/myBlog/framework/composition-api/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://primroses.github.io/myBlog/framework/composition-api/</guid>
+      <description>阅读本文你可以了解到 提前感受一下 Vue3.x(以 composition-api 为例) composition-api 解决了什么问题 composition-api 配合 TypeScript 的使用 对 Composition-api 理解的最佳实践 Vue3.x 的改动(介绍一些比较常见的) Vue3.0 的 RFC</description>
+    </item>
     
     <item>
       <title>通俗易懂理解__proto__和prototype的那些事</title>

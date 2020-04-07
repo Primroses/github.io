@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>想无缝连接 Vue3.0，先体验一下 composition-api</title><link rel="icon" type="image/png" href=https://primroses.github.io/myBlogimg/icon.ico />
+	<link rel="shortcut icon" href=/icon.ico><meta name="description" content = "composition-api目标就是将 2.x 中与逻辑相关的选项都以函数形式抽离出来"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://primroses.github.io/myBlog/css/main.css" /><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script src="https://primroses.github.io/myBlog/js/main.js"></script>
+	<script src="https://primroses.github.io/myBlog/js/background.js"></script>
+</head>
+
+<body>
+	<div class="container wrapper post">
+		<div class="header">
+	<h1 class="site-title">Front-end habitat</h1>
+	<div class="site-description "><div class="subtitle">Record My growth experiences</div><nav class="nav social">
+			<ul class="flat"><a href="https://github.com/Primroses" title="Github"><i data-feather="github"></i></a><a href="https://github.com/Primroses" title="heart"><i data-feather="hexagon"></i></a></ul>
+		</nav>
+	</div>
+
+	<nav class="nav">
+		<ul class="flat">
+			
+			<li>
+				<a href="/myBlog/">主页</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/fundamention">基础</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/framework">框架</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/project">工程化</a>
+			</li>
+			
+			<li>
+				<a href="/myBlog/about">关于</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+
+		<div class="post-header">
+			<h2 class="title">想无缝连接 Vue3.0，先体验一下 composition-api</h2>
+			<div class="meta">Posted at &mdash; Apr 7, 2020</div>
+		</div>
+
+		<div class="markdown">
+			
+
+<p>阅读本文你可以了解到</p>
+
+<ol>
+<li>提前感受一下 Vue3.x(以 composition-api 为例)</li>
+<li>composition-api 解决了什么问题</li>
+<li>composition-api 配合 TypeScript 的使用</li>
+<li>对 Composition-api 理解的最佳实践</li>
+</ol>
+
+<h2 id="vue3-x-的改动-介绍一些比较常见的">Vue3.x 的改动(介绍一些比较常见的)</h2>
+
+<blockquote>
+<p>Vue3.0 的 RFC 提出来也有一段时间了。从刚开始的 function-base-api 到现在的 composition-api。这两者都有一个共同的目标就是将 2.x 中与逻辑相关的选项都以函数形式抽离出来</p>
+</blockquote>
+
+<ol>
+<li>ref 和 reactive</li>
+</ol>
+
+<p>这两个都能定义响应式数据，在这里其实有那么点区别，先举个例子</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">const</span> x = ref&lt;number&gt;(0)
+<span style="color:#00f">const</span> y = ref&lt;string&gt;(<span style="color:#a31515">&#34;Hello World&#34;</span>)
+<span style="color:#008000">// x y的类型是 Ref&lt;number&gt; | Ref&lt;string&gt;
+</span><span style="color:#008000"></span>
+<span style="color:#00f">const</span> state = reactive({
+    text:<span style="color:#a31515">&#34;Hello World&#34;</span>
+})
+</code></pre></div>
+<p>这里的 Ref 类型是包装类型的意思。以前的 Vue2.x 直接监听的是字符串，还有数字的变化。因为这些值都是作为 data 的属性值存在，监听的其实是 data 对象的属性值。但是现在单独在函数中返回的字符串，和数字等基本数字类型，不存在引用关系，是无法追踪原始变量后续的变化的。所以包装对象的意义就在于提供一个让我们能够在函数之间以引用的方式传递任意类型值的容器。容器的存在可以通过引用的方式传回给组件。</p>
+
+<p>state 跟原来的 Vue2.x 的就很很类似，存在于 state 对象上，监听的是 state 属性的变化。</p>
+
+<p>怎么去选择定义数据的方法?其实很简单，都可以，看个人习惯问题。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">const</span> state = reactive({
+    user:{
+        name:<span style="color:#a31515">&#34;A&#34;</span>,
+        age:10,
+        where:<span style="color:#a31515">&#34;china&#34;</span>
+    }
+})
+<span style="color:#008000">// 相当于
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> state = {
+    name :<span style="color:#a31515">&#34;A&#34;</span>,
+    age:10,
+    where:<span style="color:#a31515">&#34;china&#34;</span>
+}
+<span style="color:#00f">const</span> userName = ref&lt;string&gt;(<span style="color:#a31515">&#34;A&#34;</span>)
+<span style="color:#00f">const</span> userAge = ref&lt;number&gt;(10)
+<span style="color:#00f">const</span> userWhere = ref&lt;string&gt;(<span style="color:#a31515">&#34;china&#34;</span>)
+<span style="color:#008000">// 相当于
+</span><span style="color:#008000"></span><span style="color:#00f">const</span> name = <span style="color:#a31515">&#34;A&#34;</span>;
+<span style="color:#00f">const</span> age = 10;
+<span style="color:#00f">const</span> where = <span style="color:#a31515">&#39;china&#39;</span>
+</code></pre></div>
+<p>⚠️ 注意在使用 Ref 的时候，在模板会自动拆箱，但是在函数里面，传递的是对象。所以要取值的时候记得要加 ref.value 才能取值</p>
+
+<p>2.watch</p>
+
+<p>watch 用过的同学都知道是用来观察数据变化进行对应的操作的。这次的改动是将原来的 Options 的写法换成函数的形式进行调用。</p>
+
+<p>watch 的第一个参数可以是返回任意值的函数，一个包装对象，还有是包含两种数据的数组</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript">...
+<span style="color:#00f">const</span> state = reactive&lt;{count:number}&gt;({
+    count:1,
+})
+watch(
+  () =&gt; state.count,
+  (cur,pre) =&gt; {
+      <span style="color:#008000">// 观察的是 state对象里面的一个值在这里进行操作
+</span><span style="color:#008000"></span>  },
+);
+...
+...
+<span style="color:#00f">const</span> name = ref&lt;string&gt;(<span style="color:#a31515">&#34;Hello World&#34;</span>)
+watch(
+  () =&gt; name,
+  (cur,pre) =&gt; {
+      <span style="color:#008000">// do other things
+</span><span style="color:#008000"></span>  },
+);
+...
+</code></pre></div>
+<p>⚠️ 注意的是包装对象不能用函数返回，因为是两种不同类型的观察值，所对应的操作也是不一样的。如果用函数返回，则没有监听的效果。(虽然你看到的值是改变了，但是你.value 过后仍然是初始的值)</p>
+
+<p>⚠️ 注意 watch 的回调会在创建的时候就使用，类似于 2.x 设置了<code>immediate: true</code>,watch 的触发总是会在 DOM 更新完的情况下。所以说如果想要在 DOM 更新前就得设置<code>flush</code>选项</p>
+
+<p>✏️ watch 还能够停止监听，这是 2.x 没有的</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00f">const</span> stop = watch(()=&gt;state.count)
+
+<span style="color:#008000">// watch函数返回的是一个 停止观察数据的函数。 调用一下就能停止观察了
+</span></code></pre></div>
+<p>❤️ 特别说明一下:如果 watch 实在<code>setup</code>或者是生命周期函数里面调用。<code>watch</code>会在销毁组件的时候自动停止</p>
+
+<p>3.setup 函数和生命周期</p>
+
+<p>Vue3.x 的生命周期发生了些变化，废弃了原来的<code>created</code>和<code>beforeCreated</code>的生命周期,在这两者之间新增了一个组件选项<code>setup</code>函数。</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// setup是在初始化props后面调用的，所以会接受props为参数。context是整个组件的上下文。以前都是用this类指向Vue组件，现在换成函数就用参数的形式传递上下文。
+</span><span style="color:#008000"></span>...
+setup(props:Props,context:SetupContext){
+    onMounted()
+
+    onUpdate();
+
+    onUnMounted();
+}
+...
+</code></pre></div>
+<p>生命周期都改了名字。并且以函数 Api 的形式，更重要的是只能在 setup 函数里面调用~！</p>
+
+<p>⚠️ 注意的 props 不能进行结构赋值，也不能进行扩展运算符等破坏监听值的操作。因为这些操作都会有中间量的生成导致破坏原有存在的监听系统。要用的话就得在<code>state</code>上面使用<code>toRefs</code>方法。这个方法可以让对象不会破坏原来的监听。同时 Props 也是不可修改的。</p>
+
+<h2 id="composition-api-比较-2-x-解决了什么痛点">Composition-api 比较 2.x 解决了什么痛点</h2>
+
+<h3 id="组件间的逻辑复用">组件间的逻辑复用</h3>
+
+<p>在用 Composition-api 的同时，也可以用原来基于选项的 options 的做法。composition-api 是为了解决一些 2.x 存在的问题。</p>
+
+<p>vue 在应对简单的业务的时候确实很游刃有余。但是在大型项目，涉及很多组件，或者是组件之间的逻辑复用的问题的时候，可能就有点棘手了。
+在这之前可能都知道有 Mixins,HOC 等解决逻辑复用的手段。但是他们都或多或少有点问题。譬如:来源不清。命名空间冲突。需要额外的开销等等。</p>
+
+<p><strong>composition-api 可以将组件的逻辑封装到一个函数里面进行复用。</strong></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 举一个封装的例子 判断是否下拉到底
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// useIsEnd.ts
+</span><span style="color:#008000"></span>...
+<span style="color:#00f">const</span> isEnd = ref&lt;<span style="color:#00f">boolean</span>&gt;(<span style="color:#00f">false</span>) <span style="color:#008000">// 初始化未到最底下
+</span><span style="color:#008000"></span>
+<span style="color:#00f">export</span> <span style="color:#00f">function</span> getEnd(node:Ref&lt;HTMLElement&gt;){
+    <span style="color:#008000">// 已经封装好的三个函数 判断是否到底的 -10 是为了有些情况下会出现小数(在移动端内嵌的时候)
+</span><span style="color:#008000"></span>    <span style="color:#00f">if</span> (
+      getClientHeight(node) + (getScrollTop(node) as number) &gt;=
+      getScrollHeight(node) - 10
+    ) {
+      isEnd.value = <span style="color:#00f">true</span>;
+    } <span style="color:#00f">else</span> {
+      isEnd.value = <span style="color:#00f">false</span>;
+    }
+    <span style="color:#00f">return</span> {
+      isEnd
+    }
+}
+<span style="color:#008000">// 这里将isEnd放在外面是为了在触发触摸事件的时候(touch)，不会每次都重新创建一个新的对象导致判断失误
+</span><span style="color:#008000"></span>
+
+<span style="color:#008000">// demo.vue
+</span><span style="color:#008000"></span>...
+<span style="color:#00f">import</span> { getEnd } from <span style="color:#a31515">&#34;useIsEnd&#34;</span>;
+<span style="color:#00f">export</span> <span style="color:#00f">default</span> defineComponent({
+    ...
+    setup(){
+        <span style="color:#00f">const</span> node = ref&lt;HTMLElement&gt;(<span style="color:#a31515">&#39;node&#39;</span>) <span style="color:#008000">// 获取一个node
+</span><span style="color:#008000"></span>        ...
+        <span style="color:#008000">// 这是@touchmove 事件
+</span><span style="color:#008000"></span>        <span style="color:#00f">function</span> handleGetIsEnd(){
+            <span style="color:#00f">const</span> { isEnd } = getEnd(node) <span style="color:#008000">// 判断当前是否到底
+</span><span style="color:#008000"></span>            <span style="color:#008000">// do other things like ajax
+</span><span style="color:#008000"></span>        }
+        ...
+        <span style="color:#00f">return</span> {
+            <span style="color:#008000">// 记得return
+</span><span style="color:#008000"></span>            node,
+            handleGetIsEnd
+        }
+    }
+    ...
+})
+
+...
+</code></pre></div>
+<p>✏️ 不存在来源不清晰，返回值还可以重新定义，没有命名空间的冲突。把所有的逻辑封装成一个函数没有额外的组件的开销。还有可以更好的组织代码</p>
+
+<h3 id="更好的类型推导">更好的类型推导</h3>
+
+<blockquote>
+<p>Vue3.x 用 TypeScript 重写之后，对的类型推导天然支持。再加上是函数的 APi 的缘故，类型推导更上一层楼。</p>
+</blockquote>
+
+<h3 id="更加小的尺寸">更加小的尺寸</h3>
+
+<blockquote>
+<p>也是因为函数的原因。对 tree shakeing 友好。每个函数都可以单独引入，并且也因为函数的 API 的原因可以压缩函数名字达到极致的最小尺寸</p>
+</blockquote>
+
+<h2 id="typescript-配合-composition-api">TypeScript 配合 Composition-api</h2>
+
+<blockquote>
+<p>以前 Vue 项目假如要用 TypeScript，就得引入对应的插件(例如 vue-class-component or vue-property-decorator)。但是通过 TypeScript 重写以后，就可以直接使用 TypeScript。</p>
+</blockquote>
+
+<p>用 TypeScript 也是想要 TypeScript 的类型推导，这里不多赘述 TypeScript 的概念</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 这里的interface可以让Ts提供提示
+</span><span style="color:#008000"></span><span style="color:#00f">interface</span> Props{
+    name:string;
+    age:number;
+}
+
+<span style="color:#00f">interface</span> State{
+    title:string;
+    head:string;
+}
+...
+<span style="color:#008000">// 类型推导需要用defineCompoent or createComponent
+</span><span style="color:#008000"></span><span style="color:#00f">export</span> <span style="color:#00f">default</span> defineComponent({
+...
+    props:{
+        name:String;
+        age:Number;
+    }
+    ...
+    setup(props:Props,context:SetupContext){
+        ...
+        <span style="color:#00f">const</span> value = ref&lt;string&gt;(<span style="color:#a31515">&#34;&#34;</span>); <span style="color:#008000">// ref 的类型是Ref&lt;T&gt;
+</span><span style="color:#008000"></span>        ...
+        <span style="color:#00f">const</span> state = reactive&lt;State&gt;({
+            title:<span style="color:#a31515">&#34;&#34;</span>,
+            head:<span style="color:#a31515">&#34;&#34;</span>
+        })
+        ...
+        <span style="color:#00f">const</span> { demo } = useXXX(...)
+        demo();
+        ...
+        onMounted(<span style="color:#00f">async</span> ()=&gt;{
+            <span style="color:#00f">const</span> res = <span style="color:#00f">await</span> fetchData(...);
+            state.XXX = res.data.XXX
+        })
+        ...
+        <span style="color:#00f">return</span> {
+            value,
+            <span style="color:#008000">// 这样的话 就可以直接 使用 title / head
+</span><span style="color:#008000"></span>            ...toRefs(state)
+        }
+    }
+...
+})
+</code></pre></div>
+<h2 id="typescript-和-composition-api-最佳实践">TypeScript 和 Composition-api 最佳实践</h2>
+
+<p>在使用 Composition-api 的时候我们需要知道我们用的目的是什么。当我们的逻辑很复杂的时候，可以考虑使用它来帮我们抽离逻辑复用。当我们想更好的组织代码的时候，我们可以使用它让我们的代码更有条理性。</p>
+
+<p>💪 实践 1: 将 data(state)状态跟方法抽离到一个文件中</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#008000">// 以前可能是会这样写
+</span><span style="color:#008000"></span><span style="color:#00f">export</span> <span style="color:#00f">default</span> {
+    ...
+    data(){
+        <span style="color:#008000">// 当数据很大的时候 这里可能会很长 对应的每一条也需要写长长的注释
+</span><span style="color:#008000"></span>        <span style="color:#00f">return</span> {
+            ...
+            key1:value1,
+            ...
+        }
+    }
+    ...
+    methods:{
+      <span style="color:#008000">// 方法这里 可能会这样写, 假如方法过多 也会出现很冗余的情况，注释虽然可以帮助我们很快的找到对应的代码。但是 可能会出现几百行的情况
+</span><span style="color:#008000"></span>      handleXXX(){
+        ... <span style="color:#00f">do</span> otherthings
+      }
+    }
+}
+</code></pre></div>
+<p>👍 现在我们可能会这样写(一个函数包裹该函数的自身的状态，仅仅维护本函数自身状态)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-TypeScript" data-lang="TypeScript"><span style="color:#008000">// index.ts
+</span><span style="color:#008000"></span><span style="color:#00f">interface</span> InitState{
+    key1:<span style="color:#2b91af">string</span>;
+    key2:<span style="color:#2b91af">number</span>;
+    key3:{
+        <span style="color:#a31515">&#39;key3-1&#39;</span>:<span style="color:#2b91af">string</span>;
+        <span style="color:#a31515">&#39;key3-2&#39;</span>:<span style="color:#00f">boolean</span>;
+    }
+}
+<span style="color:#00f">export</span> <span style="color:#00f">function</span> init(){
+    ...
+    <span style="color:#00f">const</span> initState = reactive&lt;InitState&gt;({
+      key1:<span style="color:#a31515">&#34;&#34;</span>;
+      key2:<span style="color:#2b91af">0</span>;
+      key3:{
+          <span style="color:#a31515">&#39;key3-1&#39;</span>:<span style="color:#a31515">&#34;&#34;</span>;
+          <span style="color:#a31515">&#39;key3-2&#39;</span>:<span style="color:#00f">false</span>;
+      }
+    })
+    <span style="color:#008000">// 这里也可以不watch 直接 外部 async 或者是 promise的then继续执行后续操作也行
+</span><span style="color:#008000"></span>    <span style="color:#00f">const</span> stop = watch(async ()=&gt;{
+        <span style="color:#00f">const</span> res = await initData(params);
+        <span style="color:#00f">const</span> { key1,key2,key3 } = res.data;
+        state.key1 = key1;
+        state.key2 = key2;
+        state.key3 = key3;
+    })
+    stop(); <span style="color:#008000">// 假如不放在setup 里面的 或者是生命周期的 不会自动回收
+</span><span style="color:#008000"></span>    ...
+    <span style="color:#00f">return</span> {
+      <span style="color:#008000">// 记得加上toRefs就不会丢失响应式了
+</span><span style="color:#008000"></span>      ...toRefs(initState)
+    }
+}
+
+<span style="color:#008000">// index.vue
+</span><span style="color:#008000"></span>template
+...
+&lt;script lang=<span style="color:#a31515">&#34;ts&#34;</span>&gt;
+<span style="color:#00f">import</span> { defineComponent, reactive, SetupContext, toRefs } from <span style="color:#a31515">&#39;@vue/composition-api&#39;</span>;
+<span style="color:#00f">import</span> { init } from <span style="color:#a31515">&#34;./index&#34;</span>
+
+<span style="color:#00f">export</span> <span style="color:#00f">default</span> defineComponent({
+  ...
+  <span style="color:#008000">// 在某些情况下 context 可以进行解构 拿出你想要的 或者只是一个ui组件没有逻辑可以不传
+</span><span style="color:#008000"></span>  <span style="color:#008000">/** 常见的解构的类型
+</span><span style="color:#008000">   *  {{ root }: { root: ComponentInstance }
+</span><span style="color:#008000">   *  { root: { $router } }: { root: { $router: VueRouter } }
+</span><span style="color:#008000">   *  { root: { $store } }: { root: { store: Store } }
+</span><span style="color:#008000">   */</span>
+  setup(props:<span style="color:#2b91af">Props</span>,context:<span style="color:#2b91af">SetupContext</span>){
+    <span style="color:#00f">const</span> initState = init();
+    <span style="color:#00f">return</span> {
+      <span style="color:#008000">// 这里是为了更方便的取值
+</span><span style="color:#008000"></span>      ...toRefs(initState)
+    }
+  }
+  ...
+})
+&lt;script&gt;
+...
+style</code></pre></div>
+<p>✏️ 这里只有一种情况，就是仅仅是初始化的时候的 state。这里可以解构赋值，但是我个人认为 直接用一个对象包裹之后，减少不必要的命名冲突问题。这里表示的是 init 的时候的 state,后面可能会还有别的 state。</p>
+
+<p>💪 实践 2: 别的请求的情况(value 值不会马上拿到的情况)</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-TypeScript" data-lang="TypeScript"><span style="color:#008000">// index.ts
+</span><span style="color:#008000">// 这里的value不能直接拿到，需要等待的话 都需要用watch 等待改变之后再进行请求
+</span><span style="color:#008000"></span>...
+<span style="color:#00f">function</span> getSomeData(value) {
+  <span style="color:#00f">const</span> xxxState = reactive&lt;XXXState&gt;({
+    key1:<span style="color:#a31515">&#39;&#39;</span>
+  })
+  <span style="color:#00f">const</span> stop = watch(
+    () =&gt; value,
+    async (cur, pre) =&gt; {
+      <span style="color:#00f">const</span> res = await fetchData(cur);
+      xxxState.key1 = res.data
+    },
+  );
+  <span style="color:#008000">// 这里的假如value值会变的 不会只用一次的，后续可能会变化的 就不需要 stop了
+</span><span style="color:#008000"></span>  <span style="color:#00f">return</span> {
+    ...toRefs(xxxState)
+  }
+}
+...</code></pre></div>
+<p>💪 实践 3: 初始化后或者其他方法初始化的 state 后续别的方法用到，该如何修改</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-TypeScript" data-lang="TypeScript"><span style="color:#008000">// index.ts
+</span><span style="color:#008000"></span><span style="color:#008000">/**
+</span><span style="color:#008000"> * 这里可能有三种方法。第一将初始化的state放到全局上
+</span><span style="color:#008000"> * 就好像操作全局的变量一样操作全局的state，这样的做法是简单，这样做的后果就是后面需要查
+</span><span style="color:#008000"> * 现的问题的时候就不知道哪些函数有操作对应的state，导致难以定位问题。
+</span><span style="color:#008000"> */</span>
+<span style="color:#00f">const</span> initState = reactive({
+  key1:<span style="color:#2b91af">1</span>;
+})
+async <span style="color:#00f">function</span> init(){
+  <span style="color:#00f">const</span> { key1 } = await fetchData();
+  initState.key1 = key1;
+}
+<span style="color:#008000">// 这个方法我想改变初始化的state
+</span><span style="color:#008000"></span><span style="color:#00f">function</span> handleChangeInitState(){
+  <span style="color:#00f">const</span> { key1 } = await fetchData();
+  initState.key1 = key1;
+}</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-TypeScript" data-lang="TypeScript"><span style="color:#008000">// index.ts
+</span><span style="color:#008000"></span><span style="color:#008000">/**
+</span><span style="color:#008000"> * 第二种 将初始化的state返回后，需要修改的将state作为参数进行传入修改
+</span><span style="color:#008000"> * 这样做比第一种好一点。知道是哪些函数修改，就直接看对应的函数就行，但是假如后续有很多需要修改的情况，就得传很多次参数造成冗余。
+</span><span style="color:#008000"> */</span>
+async <span style="color:#00f">function</span> init(){
+  <span style="color:#00f">const</span> initState = reactive({
+    key1:<span style="color:#2b91af">1</span>;
+  })
+  <span style="color:#00f">const</span> { key1 } = await fetchData();
+  initState.key1 = key1;
+  <span style="color:#00f">return</span> {
+    initState,
+  }
+}
+
+<span style="color:#00f">function</span> handleChangeInitState(initState){
+  <span style="color:#00f">const</span> { key1 } = await fetchData();
+  initState.key1 = key1;
+}</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-TypeScript" data-lang="TypeScript"><span style="color:#008000">// index.ts
+</span><span style="color:#008000"></span><span style="color:#008000">/**
+</span><span style="color:#008000"> * 最后一种 借鉴react-hook的思想，对外暴露操作改state中某个属性的方法
+</span><span style="color:#008000"> * 比较简洁，没有多余的参数传递
+</span><span style="color:#008000"> */</span>
+async <span style="color:#00f">function</span> init(){
+  <span style="color:#00f">const</span> initState = reactive({
+    key1:<span style="color:#2b91af">1</span>;
+  })
+  <span style="color:#00f">const</span> { key1 } = await fetchData();
+  initState.key1 = key1;
+
+  <span style="color:#00f">function</span> changeKey1(value){
+    initState.key1 = value;
+  }
+
+  <span style="color:#00f">return</span> {
+    changeKey1,
+    ...toRefs(initState),
+  }
+}
+
+<span style="color:#008000">// index.vue
+</span><span style="color:#008000"></span><span style="color:#00f">import</span> { init } from <span style="color:#a31515">&#34;./index&#34;</span>
+...
+setup(props,context){
+  <span style="color:#00f">const</span> {changeKey1,initState} = init();
+  ...
+  <span style="color:#008000">// 这里可以做操作state的方法
+</span><span style="color:#008000"></span>  <span style="color:#00f">const</span> { xxxState } = useXXX();
+  changeKey1(xxxState.key1)
+  ...
+  <span style="color:#00f">return</span> {
+    ...toRefs(initState)
+  }
+}
+...</code></pre></div>
+<h2 id="总结">总结</h2>
+
+<p>这是个人觉得 composition-api 的最佳实践。组合函数就是能更好的组织代码，将多层嵌套抽离出来分成一个个组合函数，将其组合之后，就能让代码更加有条理了。</p>
+
+<h3 id="参考">参考</h3>
+
+<ol>
+<li><a href="https://composition-api.vuejs.org/api.html">Vue Composition API(RPC)</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/81012971">探秘 Vue3.0 - Composition API 在真实业务中的尝鲜姿势</a></li>
+</ol>
+
+		</div>
+
+</div>
+	<div class="footer wrapper">
+	<nav class="nav">
+		
+		<div>Powered by <a href="https://gohugo.io/" target="blank">Hugo</a> | Theme -<a href="https://github.com/vividvilla/ezhil" target="blank"> Ezhil</a></div>
+	</nav>
+</div>
+</body>
+</html>
