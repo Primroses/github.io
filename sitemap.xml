@@ -3,17 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://primroses.github.io/myBlog/framework/</loc>
-    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+    <loc>https://primroses.github.io/myBlog/</loc>
+    <lastmod>2020-05-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://primroses.github.io/myBlog/</loc>
-    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+    <loc>https://primroses.github.io/myBlog/project/</loc>
+    <lastmod>2020-05-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://primroses.github.io/myBlog/tags/</loc>
+    <lastmod>2020-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</loc>
+    <lastmod>2020-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/project/monitor/</loc>
+    <lastmod>2020-05-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://primroses.github.io/myBlog/framework/</loc>
     <lastmod>2020-04-07T00:00:00+00:00</lastmod>
   </url>
   
@@ -43,17 +58,7 @@
   </url>
   
   <url>
-    <loc>https://primroses.github.io/myBlog/project/</loc>
-    <lastmod>2019-11-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://primroses.github.io/myBlog/project/eslint/</loc>
-    <lastmod>2019-11-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</loc>
     <lastmod>2019-11-29T00:00:00+00:00</lastmod>
   </url>
   

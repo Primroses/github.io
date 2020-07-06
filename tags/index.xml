@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© Copyright notice</copyright>
-    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://primroses.github.io/myBlog/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>工程化</title>
+      <link>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>框架</title>
@@ -27,15 +36,6 @@
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>https://primroses.github.io/myBlog/tags/%E5%9F%BA%E7%A1%80/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>工程化</title>
-      <link>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</link>
-      <pubDate>Fri, 29 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://primroses.github.io/myBlog/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/</guid>
       <description></description>
     </item>
     
